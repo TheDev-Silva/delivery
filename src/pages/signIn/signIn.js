@@ -15,7 +15,7 @@ export default function SignIn() {
   const [userName, setUserName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  function handleSignIn() {
+  /* function handleSignIn() {
     setIsLoading(true);
     setButtonClicked(false);
     setTimeout(() => {
@@ -55,7 +55,7 @@ export default function SignIn() {
           });
       }
     }, 2000);
-  }
+  } */
 
 
   const handlerClickForgot = () => {

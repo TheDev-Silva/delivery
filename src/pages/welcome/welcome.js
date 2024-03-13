@@ -28,7 +28,7 @@ export default function Welcome() {
     }, 1000)
   }, [])
 
-  const checkIfLoggedInUser = async () => {
+  /* const checkIfLoggedInUser = async () => {
     try {
       //console.log('Verificando se o usuário está logado...');
       const cadastroString = await AsyncStorage.getItem('cadastro');
@@ -37,14 +37,14 @@ export default function Welcome() {
       if (cadastroString) { 
         const cadastro = JSON.parse(cadastroString)
          
-        if(cadastro.length > 0) {
+        if(cadastro) {
 
-          const user = cadastro[0]
+          //const user = cadastro[0]
           //console.log('Usuário logado!', user.userName);
           setLoggedIn(true);
           setIsLoading(true)
           setTimeout(() => {
-            navigation.navigate('Product', { userName: user.userName })
+            navigation.navigate('Product', { userName: cadastro.userName })
             setIsLoading(false)
           }, 2000);
 
@@ -66,7 +66,7 @@ export default function Welcome() {
       //console.log('Erro ao verificar login:', error);
       // Lidar com erros ao verificar o login
     }
-  };
+  }; */
   
 
   return (
