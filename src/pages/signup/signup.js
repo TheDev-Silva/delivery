@@ -15,7 +15,7 @@ export default function SignUp() {
    const [passwordValue, setPasswordValue] = useState('')
    //const [cadastro, setCadastro] = useState([])
 
-   /* function handleNewAccount() {
+   function handleNewAccount() {
       setIsLoading(true);
     
       setTimeout(() => {
@@ -57,7 +57,7 @@ export default function SignUp() {
             setIsLoading(false);
           });
       }, 2000);
-    } */
+    }
    
 
    return (

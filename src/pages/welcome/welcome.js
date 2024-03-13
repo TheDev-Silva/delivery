@@ -28,7 +28,7 @@ export default function Welcome() {
     }, 1000)
   }, [])
 
-  /* const checkIfLoggedInUser = async () => {
+  const checkIfLoggedInUser = async () => {
     try {
       //console.log('Verificando se o usuário está logado...');
       const cadastroString = await AsyncStorage.getItem('cadastro');
@@ -66,7 +66,7 @@ export default function Welcome() {
       //console.log('Erro ao verificar login:', error);
       // Lidar com erros ao verificar o login
     }
-  }; */
+  };
   
 
   return (

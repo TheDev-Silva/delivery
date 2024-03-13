@@ -10,11 +10,11 @@ export default function Product() {
    const [isLoading, setIsLoading] = useState(false)
    const navigation = useNavigation()
    const route = useRoute()
-   //const { userName } = route.params;
-   //console.log("Usuário logado", userName);
+   const { userName } = route.params;
+   console.log("Usuário logado", userName);
 
 
-   /* function handleLogout() {
+   function handleLogout() {
 
       setIsLoading(true)
       setTimeout(() => {
@@ -22,7 +22,7 @@ export default function Product() {
          //console.log(`usuário: ${userName}, deslogado!`);
          setIsLoading(false)
       }, 2000);
-   } */
+   }
    return (
       <View style={styles.container}>
          <View style={styles.header}>
