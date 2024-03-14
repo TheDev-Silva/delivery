@@ -1,27 +1,44 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native'
 import { FontAwesome } from '@expo/vector-icons'
 import { useState } from 'react'
 import LoadingModal from '../../model/loadingModal'
-import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Product() {
 
    const [isLoading, setIsLoading] = useState(false)
+   //const [cadastros, setCadastros ] = useState([])
    const navigation = useNavigation()
    const route = useRoute()
-   const { userName } = route.params;
-   console.log("Usuário logado", userName);
+   const { name } = route.params;
+   console.log("Usuário logado", name);
 
 
-   function handleLogout() {
+   async function handleLogout() {
+      setIsLoading(true);
 
-      setIsLoading(true)
-      setTimeout(() => {
-         navigation.navigate('Welcome')
-         //console.log(`usuário: ${userName}, deslogado!`);
+      // Limpe os dados de autenticação
+
+      try {
+         await AsyncStorage.removeItem('name')
+            .then(() => {
+               setTimeout(() => {
+
+
+                  console.log("Deslogando");
+
+                  // Redirecione para a tela de login
+                  navigation.navigate('Welcome')
+                  setIsLoading(false);
+               }, 2000);
+            })
+      } catch (error) {
+         console.log("Erro ao deslogar", error);
          setIsLoading(false)
-      }, 2000);
+      }
+
    }
    return (
       <View style={styles.container}>
@@ -31,15 +48,10 @@ export default function Product() {
                <View style={styles.containerUser}>
                   <FontAwesome name='user' size={20} color="#000" />
                </View>
-               <Text style={styles.text1}>{userName}</Text>
+               <Text style={styles.text1}>{name}</Text>
             </View>
             <TouchableOpacity style={styles.buttonLogout} onPress={handleLogout}>
-               {isLoading ? 
-                  (<Text style={styles.textLogout}><ActivityIndicator size={16} color='#fff'/></Text>)
-                  : (
-                     <Text style={styles.textLogout}>logout</Text>
-                  )}
-
+            <MaterialIcons name="logout" size={24} color="#fff" />
             </TouchableOpacity>
             <LoadingModal visible={isLoading} />
          </View>
@@ -82,8 +94,7 @@ const styles = StyleSheet.create({
    },
    buttonLogout: {
       backgroundColor: '#000',
-      paddingVertical: 10,
-      paddingHorizontal: 30,
+      padding: 10,
       borderRadius: 5
    },
    textLogout: {

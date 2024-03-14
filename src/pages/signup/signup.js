@@ -9,55 +9,32 @@ export default function SignUp() {
 
    const navigation = useNavigation()
    const [isLoading, setIsLoading] = useState(false)
-   const [userName, setUserName] = useState('')
+   const [cadastros, setCadastros] = useState([]);
    const [email, setEmail] = useState('')
-   const [password, setPassword] = useState('')
-   const [passwordValue, setPasswordValue] = useState('')
-   //const [cadastro, setCadastro] = useState([])
+   const [password, setPassword] = useState()
+   const [name, setName] = useState()
 
-   function handleNewAccount() {
-      setIsLoading(true);
-    
+   const handleNewAccount = async () => {
+      const novoCadastro = { 
+         email: email,
+         password: password,
+         name: name
+      };
+      const novosCadastros = [...cadastros, novoCadastro];
+      setIsLoading(true)
       setTimeout(() => {
-        if (!email || !password || !userName || !passwordValue) {
-          setIsLoading(false);
-          Alert.alert("Por favor, preencha todos os campos!");
-          return;
-        }
-    
-        if (password !== passwordValue) {
-          setIsLoading(false);
-          Alert.alert("Erro", "As senhas não coincidem. Por favor, digite novamente!");
-          return;
-        }
-    
-        if (password === 'facil') {
-          setIsLoading(false);
-          Alert.alert("Erro", "A senha não pode ser 'facil'. Por favor, escolha outra senha.");
-          return;
-        }
-    
-        const novoCadastro = { userName, email, password };
-    
-        AsyncStorage.getItem('cadastro')
-          .then((cadastro) => {
-            const cadastroArray = cadastro ? JSON.parse(cadastro) : [];
-            cadastroArray.push(novoCadastro);
-    
-            return AsyncStorage.setItem('cadastro', JSON.stringify(cadastroArray));
-          })
-          .then(() => {
-            Alert.alert('Cadastro salvo com sucesso!');
-            setIsLoading(false);
-            navigation.navigate('SignIn');
-          })
-          .catch((error) => {
-            console.log('Erro ao salvar cadastro', error);
-            Alert.alert('Erro', 'Erro ao salvar o cadastro. Por favor, tente novamente mais tarde.');
-            setIsLoading(false);
-          });
+         Alert.alert(`Cadastro de ${name}, salvo com sucesso!`)
+         navigation.navigate('SignIn')
+         setCadastros(novosCadastros);
+         AsyncStorage.setItem('cadastros', JSON.stringify(novosCadastros)).then(() => {
+            console.log("Cadastros salvos com sucesso:", novosCadastros);
+            setIsLoading(false)
+         }).catch(error => {
+            console.log("Erro ao salvar cadastros:", error);
+            setIsLoading(false)
+         });
       }, 2000);
-    }
+   };
    
 
    return (
@@ -70,14 +47,14 @@ export default function SignUp() {
             <ScrollView style={{flexGrow: 1, marginBottom: 20}}>
 
 
-               <Text style={styles.title}>Nome completo</Text>
+               <Text style={styles.title}>Nome</Text>
 
                <TextInput
-                  placeholder='Digite seu nome completo'
+                  placeholder='Digite seu nome'
                   style={styles.input}
                   keyboardType={'default'}
-                  value={userName}
-                  onChangeText={setUserName}
+                  value={name}
+                  onChangeText={setName}
                />
 
                <Text style={styles.title}>Email</Text>
@@ -96,17 +73,8 @@ export default function SignUp() {
                   style={styles.input}
                   value={password}
                   onChangeText={setPassword}
-                  //secureTextEntry={true}
+                  secureTextEntry={true}
                />
-               <Text style={styles.title}>Senha novamente</Text>
-               <TextInput
-                  placeholder='Digite sua senha'
-                  style={styles.input}
-                  //secureTextEntry={true}
-                  value={passwordValue}
-                  onChangeText={setPasswordValue}
-               />
-
                <TouchableOpacity style={styles.buttonAcessar} onPress={handleNewAccount}>
                   <Text style={styles.buttonText} >cadastrar</Text>
                </TouchableOpacity>
