@@ -4,12 +4,14 @@ import { useNavigation } from '@react-navigation/native'
 import LoadingModal from '../../model/loadingModal'
 import { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StatusBar } from 'expo-status-bar'
 
 export default function SignIn() {
 
    const navigation = useNavigation()
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
+   const [name, setName] = useState('')
    const [isLoading, setIsLoading] = useState(false)
 
    const handlerClickForgot = () => {
@@ -36,39 +38,58 @@ export default function SignIn() {
    }
 
    const handleSignIn = async () => {
-      try {
-         const cadastrosArmazenados = await AsyncStorage.getItem('cadastros');
-         if (cadastrosArmazenados !== null) {
-            console.log(cadastrosArmazenados)
-            const cadastros = JSON.parse(cadastrosArmazenados)
+      if (email !== '' && password !== '') {
+         
+         try {
+            const cadastrosArmazenados = await AsyncStorage.getItem('cadastros');
+            if (cadastrosArmazenados) {
+               console.log(cadastrosArmazenados)
+               const cadastros = JSON.parse(cadastrosArmazenados)
 
-            if (Array.isArray(cadastros)) {
-               const user = cadastros.find(item =>
-                  item.email === email && item.password === password
+               if (Array.isArray(cadastros)) {
+                  const user = cadastros.find(item =>
+                     item.email === email && item.password === password
 
-               )
-               if (user) {
-                  setIsLoading(true)
-                  setTimeout(() => {
-                     navigation.navigate('Product', {name: user.name})
-                     setIsLoading(false)
-                  }, 2000);
+                  )
+                  if (user) {
+                     setIsLoading(true)
+                     setTimeout(() => {
+                        navigation.navigate('Product', { name: user.name })
+                        setIsLoading(false)
+                     }, 2000);
+                  } else {
+                     setIsLoading(true)
+                     setTimeout(() => {
+
+                        Alert.alert('Credenciais Inválidas!')
+                        setIsLoading(false)
+                     }, 2000);
+
+                  }
                } else {
-                  Alert.alert('Credenciais Inválidas!')
+                  // Caso não seja uma array (por exemplo, se o AsyncStorage retornar algo diferente de uma array)
+                  Alert.alert('Erro ao recuperar cadastros: Dados inválidos.');
                }
+
+
             } else {
-               // Caso não seja uma array (por exemplo, se o AsyncStorage retornar algo diferente de uma array)
-               Alert.alert('Erro ao recuperar cadastros: Dados inválidos.');
+               Alert.alert("Nenhum cadastro encontrado!")
             }
-
-
-         } else {
-            Alert.alert("Nenhum cadastro encontrado!")
+         } catch (error) {
+            console.log("Erro ao recuperar cadastros:", error);
+            Alert.alert("Erro ao tentar fazer login. Tente novamente mais tarde.")
          }
-      } catch (error) {
-         console.log("Erro ao recuperar cadastros:", error);
-         Alert.alert("Erro ao tentar fazer login. Tente novamente mais tarde.")
+      } else {
+         if(email === '' && password === ''){
+            Alert.alert('campos email e senha estão vazios!')
+         } else if(email === '' && password !== ''){
+            Alert.alert('campos email se encontra vazio!')
+         } else if(email !== '' && password === ''){
+            Alert.alert('campos senha se encontra vazio!')
+         }
+         
       }
+
    }
 
 
@@ -116,7 +137,7 @@ export default function SignIn() {
             <LoadingModal visible={isLoading} />
 
          </Animatable.View>
-
+         <StatusBar style='' />
       </View>
 
 

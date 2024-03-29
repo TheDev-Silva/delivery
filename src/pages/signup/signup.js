@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import * as Animatable from "react-native-animatable"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import LoadingModal from '../../model/loadingModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -9,13 +9,35 @@ export default function SignUp() {
 
    const navigation = useNavigation()
    const [isLoading, setIsLoading] = useState(false)
+   const [selectedCadastro, setSelectedCadastro] = useState(null)
    const [cadastros, setCadastros] = useState([]);
    const [email, setEmail] = useState('')
-   const [password, setPassword] = useState()
-   const [name, setName] = useState()
+   const [password, setPassword] = useState('')
+   const [name, setName] = useState('')
+
+   
+   useEffect(() => {
+      const fetchCadastros = async () => {
+          try {
+              const cadastrosString = await AsyncStorage.getItem('cadastros');
+              if (cadastrosString) {
+                  const parsedCadastros = JSON.parse(cadastrosString);
+                  setCadastros(parsedCadastros);
+              }
+          } catch (error) {
+              console.error('Erro ao recuperar cadastros:', error);
+          }
+      };
+
+         fetchCadastros();
+      }, []);
+
+
 
    const handleNewAccount = async () => {
-      const novoCadastro = { 
+
+      if(!selectedCadastro){
+         const novoCadastro = { 
          email: email,
          password: password,
          name: name
@@ -26,14 +48,17 @@ export default function SignUp() {
          Alert.alert(`Cadastro de ${name}, salvo com sucesso!`)
          navigation.navigate('SignIn')
          setCadastros(novosCadastros);
-         AsyncStorage.setItem('cadastros', JSON.stringify(novosCadastros)).then(() => {
-            console.log("Cadastros salvos com sucesso:", novosCadastros);
-            setIsLoading(false)
-         }).catch(error => {
-            console.log("Erro ao salvar cadastros:", error);
-            setIsLoading(false)
-         });
+         console.log(novosCadastros);
+         console.log(cadastros);
+         console.log(novoCadastro);
+         setIsLoading(false)
       }, 2000);
+      await AsyncStorage.setItem('cadastros', JSON.stringify(novosCadastros))
+      console.log(novosCadastros);
+      } else {
+         Alert.alert('Por favor, selecione uma conta para fazer login')
+      }
+      
    };
    
 

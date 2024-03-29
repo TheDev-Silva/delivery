@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import DetalhesProduct from '../pages/detalhes/detalhes'
 import Forgot from '../pages/forgot/forgot'
 import Product from '../pages/product/product'
 import SignIn from '../pages/signIn/signIn'
@@ -35,6 +36,11 @@ export default function Routes() {
          <Stack.Screen
          name='Forgot'
          component={Forgot}
+         options={{headerShown: false}}
+         />
+         <Stack.Screen
+         name='Detalhes'
+         component={DetalhesProduct}
          options={{headerShown: false}}
          />
 

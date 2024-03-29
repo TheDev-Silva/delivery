@@ -14,8 +14,8 @@ export default function Welcome() {
    const [buttonClicked, setButtonClicked] = useState(false)
    const [refresh, setRefresh] = useState(false)
    const [loggedIn, setLoggedIn] = useState(false)
-   //const [userName, setUserName] = useState('')
-
+   const [name, setName] = useState('')
+   
 
    const OnRefresh = useCallback(() => {
 
@@ -27,63 +27,29 @@ export default function Welcome() {
       }, 1000)
    }, [])
 
-   /* const checkIfLoggedInUser = async () => {
-     try {
-       console.log('Verificando se o usuário está logado...');
-       const cadastroString = await AsyncStorage.getItem('cadastro');
-       console.log('Dados do cadastro:', cadastroString);
-       
-       if (cadastroString) { 
-         const cadastro = JSON.parse(cadastroString)
-          
-         if(cadastro) {
-           console.log(cadastro);
-           const user = cadastro[0]
-           console.log('Usuário logado!', user.userName);
-           setLoggedIn(true);
-           setIsLoading(true)
-           setTimeout(() => {
-             navigation.navigate('Product', { userName: cadastro[0].userName })
-             
-             setIsLoading(false)
-           }, 2000);
- 
- 
-         }
-         
-         // Restante do código...
-       } else {
-         //console.log('Nenhum cadastro encontrado.');
-         setLoggedIn(false);
-         setIsLoading(true)
-         setTimeout(() => {
-           navigation.navigate('SignIn')
-           setIsLoading(false)
-         }, 2000);
-         // Restante do código...
-       }
-     } catch (error) {
-       //console.log('Erro ao verificar login:', error);
-       // Lidar com erros ao verificar o login
-     }
-   }; */
 
-   
+
    // Verifique se o usuário está logado
    const checkIfLoggedInUser = async () => {
+
+
       try {
-         const cadastroString = await AsyncStorage.getItem('cadastro');
+         const cadastroString = await AsyncStorage.getItem('cadastros');
          console.log("dados de usuário", cadastroString);
+
          if (cadastroString) {
-            const cadastro = JSON.parse(cadastroString);
-            if (cadastro) {
-               // Redirecione para a tela de produto se o usuário estiver logado
+            const cadastros = JSON.parse(cadastroString);
+            if (cadastros) {
+
                setIsLoading(true)
                setTimeout(() => {
-                  navigation.navigate('Product', { userName: cadastro[0].userName });
+                  navigation.navigate('Product', { cadastro: cadastros[0] });
                   setIsLoading(false)
                }, 2000);
 
+               console.log('resultado:', cadastros);
+            } else {
+               console.error("ERROR, Array cadastro não possui elementos usuficientes!")
             }
 
          } else {
@@ -92,8 +58,12 @@ export default function Welcome() {
       } catch (error) {
          console.log('Erro ao verificar login:', error);
       }
-   };
 
+
+   };
+   useEffect(() => {
+      checkIfLoggedInUser()
+   }, [])
 
 
 

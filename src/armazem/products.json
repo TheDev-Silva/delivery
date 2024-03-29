@@ -1,0 +1,29 @@
+[
+    {  
+        "id": 1, 
+        "name": "Hamburguer Gourmet Grelhado", 
+        "price": "25.90", 
+        "image": "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?t=st=1710542741~exp=1710546341~hmac=56dfa782d5d4fe1f494d38831f6f80c24cf2e3fb820db76328cb78ff1682c970&w=740",
+        "description": "Com queijo, tomate, cebola, 2 carnes, bacon, e batata frita"  
+    },
+    {  
+        "id": 2, 
+        "name": "Hamburguer de Queijo Perfeito", 
+        "price":"20.90", 
+        "image": "https://img.freepik.com/fotos-gratis/ainda-vida-de-delicioso-hamburguer-americano_23-2149637306.jpg?t=st=1710542499~exp=1710546099~hmac=f836bdffe460222c82d4fe1ab5f30bbb92f00ed0a1d8a5f8a6ed8a2e58c07ac0&w=740",
+        "description": "Com queijo, peacles, tomate, alface, uma mega carne" 
+    },
+    { 
+        "id": 3, 
+        "name": "Cheeseburguer Gourmet com Carne", 
+        "price": "30.00", 
+        "image": "https://img.freepik.com/fotos-gratis/hamburguer-de-carne-grelhada-com-queijo-e-batatas-fritas-generative-ai_188544-40942.jpg?t=st=1710542247~exp=1710545847~hmac=6c5e5676938371c000e8c3f486736c12448ad95fe2403e5f8a4141327520f7d2&w=740", 
+        "description":"Pão Rústico, Com queijo, peacles, tomate, cebola, alface, uma mega carne, bacon"
+    },
+    { 
+        "id": 4, "name": "Hamburguer Americano", 
+        "price": "24.90", 
+        "image":"https://img.freepik.com/fotos-gratis/ainda-vida-de-delicioso-hamburguer-americano_23-2149637306.jpg?t=st=1710462340~exp=1710465940~hmac=4d0265b9c67a5b8e0036ffc7192747623b5184e55b16984ed2cf011eaa86f73e&w=740",
+        "description":"Com queijo, ovo, peacles, carne, alface e batata frita"
+    }
+]
